@@ -1,0 +1,22 @@
+= Fetch KCC Data Locally https://www.data.gov.in/resource/kisan-call-centre-kcc-transcripts-farmers-queries-answers[queries & answers]
+
+The motivation for this micro project is to experiment with MCP Server. However, here only data is fetched, for more info on configuring sqlite as a MCP Server see:
+
+https://googleapis.github.io/genai-toolbox/resources/tools/sqlite/sqlite-sql/[SQLite support for google MCP database server] 
+
+.From the project root:
+
+ go build kcc
+
+Get your API Key by login to data.gov.in
+
+ export DATA_GOV_API_KEY=<Your API Key Here>
+
+ ./kcc fetch  -batch 2000 -year 2025 -backoff 5000  -retries 11
+
+There are lot of duplicate records, this utility  also de-duplicates the data.
+
+To export the data to  https://github.com/dolthub/dolt[dolt]
+
+ ./kcc export --sqlite kcc_data-28jul2025.db --dolt . --table kcc_transcripts
+
